@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService{
         // 密码强度
         user = new User();
         user.setName(username);
+        //验证密码时通过 用户输入的密码加上数据库保存的盐值 的MD5来对比是否正确
         user.setSalt(UUID.randomUUID().toString().substring(0, 5));
         //从牛客网随机选取头像
         String head = String.format("http://images.nowcoder.com/head/%dt.png", new Random().nextInt(1000));
@@ -97,6 +98,11 @@ public class UserServiceImpl implements UserService{
         String ticket = addLoginTicket(user.getId());
         map.put("ticket", ticket);
         return map;
+    }
+
+    @Override
+    public void logout(String ticket) {
+        loginTicketDAO.updateStatus(ticket, 1);
     }
 
     private String addLoginTicket(int userId) {
