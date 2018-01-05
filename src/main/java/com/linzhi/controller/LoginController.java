@@ -26,31 +26,35 @@ public class LoginController {
     @Autowired
     UserService userService;
 
+    public String checkTicket(Map map, String next, Model model, boolean rememberme,
+                              HttpServletResponse response){
+        if (map.containsKey("ticket")) {
+            Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
+            cookie.setPath("/");
+            if (rememberme) {
+                cookie.setMaxAge(3600*24*5);    //todo
+            }
+            response.addCookie(cookie);
+            if (StringUtils.isNotBlank(next)) {
+                return "redirect:" + next;
+            }
+            return "redirect:/";
+        } else {
+            model.addAttribute("msg", map.get("msg"));
+            return "login";
+        }
+    }
+
     @RequestMapping(path = {"/reg/"}, method = {RequestMethod.POST})
-    public String reg(Model model, /*@RequestBody User user,*/
+    public String reg(Model model,
                       @RequestParam("name") String name,
                       @RequestParam("password") String password,
                       @RequestParam("next") String next,
                       @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                       HttpServletResponse response) {
         try {
-            Map<String, Object> map = userService.register(/*user.getName()*/name, /*user.getPassword()*/password);
-            if (map.containsKey("ticket")) {
-                Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
-                cookie.setPath("/");
-                if (rememberme) {
-                    cookie.setMaxAge(3600*24*5);    //todo
-                }
-                response.addCookie(cookie);
-                if (StringUtils.isNotBlank(next)) {
-                    return "redirect:" + next;
-                }
-                return "redirect:/";
-            } else {
-                model.addAttribute("msg", map.get("msg"));
-                return "login";
-            }
-
+            Map<String, Object> map = userService.register(name, password);
+            return checkTicket(map, next, model, rememberme, response);
         } catch (Exception e) {
             logger.error("注册异常" + e.getMessage());
             model.addAttribute("msg", "服务器错误");
@@ -65,29 +69,14 @@ public class LoginController {
     }
 
     @RequestMapping(path = {"/login/"}, method = {RequestMethod.POST})
-    public String login(Model model, @RequestParam("username") String username,
+    public String login(Model model, @RequestParam("name") String name,
                         @RequestParam("password") String password,
                         @RequestParam(value="next", required = false) String next,
                         @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse response) {
         try {
-            Map<String, Object> map = userService.login(username, password);
-            if (map.containsKey("ticket")) {
-                Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
-                cookie.setPath("/");
-                if (rememberme) {
-                    cookie.setMaxAge(3600*24*5);
-                }
-                response.addCookie(cookie);
-                if (StringUtils.isNotBlank(next)) {
-                    return "redirect:" + next;
-                }
-                return "redirect:/";
-            } else {
-                model.addAttribute("msg", map.get("msg"));
-                return "login";
-            }
-
+            Map<String, Object> map = userService.login(name, password);
+            return checkTicket(map, next, model, rememberme, response);
         } catch (Exception e) {
             logger.error("登陆异常" + e.getMessage());
             return "login";
