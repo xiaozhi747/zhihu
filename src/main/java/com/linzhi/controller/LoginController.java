@@ -16,6 +16,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+import static com.linzhi.configuration.Constants.COOKIE_TIME;
+
 /**
  * Created by 林智 on 2017/12/27.
  */
@@ -32,7 +34,7 @@ public class LoginController {
             Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
             cookie.setPath("/");
             if (rememberme) {
-                cookie.setMaxAge(3600*24*5);    //todo
+                cookie.setMaxAge(COOKIE_TIME);
             }
             response.addCookie(cookie);
             if (StringUtils.isNotBlank(next)) {

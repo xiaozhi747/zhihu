@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.linzhi.configuration.Constants.TOKEN_TIME;
+
 /**
  * Created by 林智 on 2017/12/28.
  */
@@ -109,7 +111,7 @@ public class UserServiceImpl implements UserService{
         LoginTicket ticket = new LoginTicket();
         ticket.setUserId(userId);
         Date date = new Date();
-        date.setTime(date.getTime() + 1000*3600*24);    //todo
+        date.setTime(date.getTime() + TOKEN_TIME);
         ticket.setExpired(date);
         ticket.setStatus(0);
         ticket.setTicket(UUID.randomUUID().toString().replaceAll("-", ""));
