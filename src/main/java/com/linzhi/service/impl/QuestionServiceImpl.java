@@ -3,6 +3,7 @@ package com.linzhi.service.impl;
 import com.linzhi.dao.QuestionDAO;
 import com.linzhi.model.Question;
 import com.linzhi.service.QuestionService;
+import com.linzhi.service.SensitiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -17,6 +18,9 @@ public class QuestionServiceImpl implements QuestionService{
     @Autowired
     QuestionDAO questionDAO;
 
+    @Autowired
+    SensitiveService sensitiveService;
+
     @Override
     public Question getById(int id) {
         return questionDAO.getById(id);
@@ -27,8 +31,8 @@ public class QuestionServiceImpl implements QuestionService{
         question.setTitle(HtmlUtils.htmlEscape(question.getTitle()));
         question.setContent(HtmlUtils.htmlEscape(question.getContent()));
         // 敏感词过滤
-       // question.setTitle(sensitiveService.filter(question.getTitle()));
-       // question.setContent(sensitiveService.filter(question.getContent()));
+        question.setTitle(sensitiveService.filter(question.getTitle()));
+        question.setContent(sensitiveService.filter(question.getContent()));
         return questionDAO.addQuestion(question) > 0 ? question.getId() : 0;
     }
 
