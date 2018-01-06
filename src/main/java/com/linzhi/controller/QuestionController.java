@@ -1,7 +1,7 @@
 package com.linzhi.controller;
 
-import com.linzhi.model.HostHolder;
-import com.linzhi.model.Question;
+import com.linzhi.model.*;
+import com.linzhi.service.CommentService;
 import com.linzhi.service.QuestionService;
 import com.linzhi.service.UserService;
 import com.linzhi.util.WendaUtil;
@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static com.linzhi.configuration.Constants.NOT_LOGGED_IN_STATUS_CODE;
 
@@ -28,8 +28,8 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
 
-   /* @Autowired
-    CommentService commentService;*/
+    @Autowired
+    CommentService commentService;
 
     @Autowired
     HostHolder hostHolder;
@@ -37,7 +37,7 @@ public class QuestionController {
     @Autowired
     UserService userService;
 
-  /*  @RequestMapping(value = "/question/{qid}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/question/{qid}", method = {RequestMethod.GET})
     public String questionDetail(Model model, @PathVariable("qid") int qid) {
         Question question = questionService.getById(qid);
         model.addAttribute("question", question);
@@ -52,7 +52,7 @@ public class QuestionController {
         model.addAttribute("comments", vos);
 
         return "detail";
-    }*/
+    }
 
     @RequestMapping(value = "/question/add", method = {RequestMethod.POST})
     @ResponseBody
