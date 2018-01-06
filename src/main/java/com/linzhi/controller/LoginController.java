@@ -49,13 +49,13 @@ public class LoginController {
 
     @RequestMapping(path = {"/reg/"}, method = {RequestMethod.POST})
     public String reg(Model model,
-                      @RequestParam("name") String name,
+                      @RequestParam("username") String username,
                       @RequestParam("password") String password,
                       @RequestParam("next") String next,
                       @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                       HttpServletResponse response) {
         try {
-            Map<String, Object> map = userService.register(name, password);
+            Map<String, Object> map = userService.register(username, password);
             return checkTicket(map, next, model, rememberme, response);
         } catch (Exception e) {
             logger.error("注册异常" + e.getMessage());
@@ -71,13 +71,13 @@ public class LoginController {
     }
 
     @RequestMapping(path = {"/login/"}, method = {RequestMethod.POST})
-    public String login(Model model, @RequestParam("name") String name,
+    public String login(Model model, @RequestParam("username") String username,
                         @RequestParam("password") String password,
                         @RequestParam(value="next", required = false) String next,
                         @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse response) {
         try {
-            Map<String, Object> map = userService.login(name, password);
+            Map<String, Object> map = userService.login(username, password);
             return checkTicket(map, next, model, rememberme, response);
         } catch (Exception e) {
             logger.error("登陆异常" + e.getMessage());

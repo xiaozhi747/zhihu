@@ -16,4 +16,6 @@ public interface UserService {
     Map<String, Object> login(String username, String password);
 
     void logout(String ticket);
+
+    User selectByName(String name);
 }

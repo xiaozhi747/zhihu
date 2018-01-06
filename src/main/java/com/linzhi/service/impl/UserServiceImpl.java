@@ -107,6 +107,11 @@ public class UserServiceImpl implements UserService{
         loginTicketDAO.updateStatus(ticket, 1);
     }
 
+    @Override
+    public User selectByName(String name) {
+        return userDAO.selectByName(name);
+    }
+
     private String addLoginTicket(int userId) {
         LoginTicket ticket = new LoginTicket();
         ticket.setUserId(userId);
