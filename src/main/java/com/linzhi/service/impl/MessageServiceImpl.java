@@ -41,4 +41,9 @@ public class MessageServiceImpl implements MessageService {
     public int getConvesationUnreadCount(int userId, String conversationId) {
         return messageDAO.getConvesationUnreadCount(userId, conversationId);
     }
+
+    @Override
+    public int getConversationUnreadCount(int userId, String conversationId) {
+        return messageDAO.getConversationUnreadCount(userId, conversationId);
+    }
 }
