@@ -1,5 +1,6 @@
 package com.linzhi.controller;
 
+import com.linzhi.async.EventProducer;
 import com.linzhi.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -27,6 +28,9 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     public String checkTicket(Map map, String next, Model model, boolean rememberme,
                               HttpServletResponse response){
@@ -78,7 +82,27 @@ public class LoginController {
                         HttpServletResponse response) {
         try {
             Map<String, Object> map = userService.login(username, password);
-            return checkTicket(map, next, model, rememberme, response);
+            if (map.containsKey("ticket")) {
+                Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
+                cookie.setPath("/");
+                if (rememberme) {
+                    cookie.setMaxAge(3600*24*5);
+                }
+                response.addCookie(cookie);
+                //判断用户是否异常
+             /*   eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+                        .setExt("username", username).setExt("email", "zjuyxy@qq.com")
+                        .setActorId((int)map.get("userId")));   */
+
+                if (StringUtils.isNotBlank(next)) {
+                    return "redirect:" + next;
+                }
+                return "redirect:/";
+            } else {
+                model.addAttribute("msg", map.get("msg"));
+                return "login";
+            }
+
         } catch (Exception e) {
             logger.error("登陆异常" + e.getMessage());
             return "login";
