@@ -1,10 +1,7 @@
 package com.linzhi.async.handle;
 
 import com.linzhi.async.EventHandler;
-import com.linzhi.model.EventModel;
-import com.linzhi.model.EventType;
-import com.linzhi.model.Message;
-import com.linzhi.model.User;
+import com.linzhi.model.*;
 import com.linzhi.service.MessageService;
 import com.linzhi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +14,12 @@ import java.util.List;
 import static com.linzhi.configuration.Constants.SYSTEM_USERID;
 
 /**
- * Created by 林智 on 2018/2/14.
+ * Created by 林智 on 2018/2/26.
  *
- * 支持 LIKE 事件
+ * 支持 FOLLOW 事件
  */
 @Component
-public class LikeHandler implements EventHandler {
+public class FollowHandler implements EventHandler {
     @Autowired
     MessageService messageService;
 
@@ -36,14 +33,20 @@ public class LikeHandler implements EventHandler {
         message.setToId(model.getEntityOwnerId());
         message.setCreatedDate(new Date());
         User user = userService.getUser(model.getActorId());
-        message.setContent("用户" + user.getName()
-                + "赞了你的评论,http://127.0.0.1:8080/question/" + model.getExt("questionId"));
+
+        if (model.getEntityType() == EntityType.ENTITY_QUESTION) {
+            message.setContent("用户" + user.getName()
+                    + "关注了你的问题,http://127.0.0.1:8080/question/" + model.getEntityId());
+        } else if (model.getEntityType() == EntityType.ENTITY_USER) {
+            message.setContent("用户" + user.getName()
+                    + "关注了你,http://127.0.0.1:8080/user/" + model.getActorId());
+        }
 
         messageService.addMessage(message);
     }
 
     @Override
     public List<EventType> getSupportEventTypes() {
-        return Arrays.asList(EventType.LIKE);
+        return Arrays.asList(EventType.FOLLOW);
     }
 }

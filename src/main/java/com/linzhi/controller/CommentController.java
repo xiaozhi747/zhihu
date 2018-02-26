@@ -1,8 +1,7 @@
 package com.linzhi.controller;
 
-import com.linzhi.model.Comment;
-import com.linzhi.model.EntityType;
-import com.linzhi.model.HostHolder;
+import com.linzhi.async.EventProducer;
+import com.linzhi.model.*;
 import com.linzhi.service.CommentService;
 import com.linzhi.service.QuestionService;
 import org.slf4j.Logger;
@@ -32,6 +31,9 @@ public class CommentController {
     @Autowired
     QuestionService questionService;
 
+    @Autowired
+    EventProducer eventProducer;
+
 
     @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
     public String addComment(@RequestParam("questionId") int questionId,
@@ -52,6 +54,9 @@ public class CommentController {
 
             int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
             questionService.updateCommentCount(comment.getEntityId(), count);
+
+            eventProducer.fireEvent(new EventModel(EventType.COMMENT).setActorId(comment.getUserId())
+                    .setEntityId(questionId));
 
         } catch (Exception e) {
             logger.error("增加评论失败" + e.getMessage());

@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * Created by 林智 on 2018/2/14.
+ *
+ * 支持 LOGIN 事件
  */
 @Component
 public class LoginExceptionHandler implements EventHandler {
