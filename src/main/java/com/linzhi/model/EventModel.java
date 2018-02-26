@@ -7,17 +7,15 @@ import java.util.Map;
  * Created by 林智 on 2018/2/14.
  */
 public class EventModel {
-    private EventType type;
-    private int actorId;
-    private int entityType;
+    private EventType type;     //事件类型
+    private int actorId;        //事件的触发者
+    private int entityType;     //entityType 和 entityId 用来查出被触发的事件
     private int entityId;
-    private int entityOwnerId;
+    private int entityOwnerId;  //该事件拥有者的id
 
     private Map<String, String> exts = new HashMap<String, String>();
 
-    public EventModel() {
-
-    }
+    public EventModel() {}
 
     public EventModel setExt(String key, String value) {
         exts.put(key, value);

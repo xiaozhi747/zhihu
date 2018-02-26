@@ -7,11 +7,11 @@ import java.util.Date;
  */
 public class Message {
     private int id;
-    private int fromId;
-    private int toId;
-    private String content;
+    private int fromId;     //发信息的人的id
+    private int toId;       //收到信息的人的id
+    private String content;     //信息的内容
     private Date createdDate;
-    private int hasRead;
+    private int hasRead;        //收到信息的人是否已阅读该信息
     private String conversationId;
 
     public int getId() {

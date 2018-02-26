@@ -7,11 +7,11 @@ import java.util.Date;
  */
 public class Question {
     private int id;
-    private String title;
-    private String content;
+    private String title;       //标题
+    private String content;     //内容
     private Date createdDate;
-    private int userId;
-    private int commentCount;
+    private int userId;         //问题的提问者
+    private int commentCount;   //问题的总评论数
 
     public int getId() {
         return id;
