@@ -17,18 +17,18 @@ public class FeedServiceImpl implements FeedService{
     @Autowired
     FeedDAO feedDAO;
 
-    @Autowired
+    @Override
     public List<Feed> getUserFeeds(int maxId, List<Integer> userIds, int count) {
         return feedDAO.selectUserFeeds(maxId, userIds, count);
     }
 
-    @Autowired
+    @Override
     public boolean addFeed(Feed feed) {
         feedDAO.addFeed(feed);
         return feed.getId() > 0;
     }
 
-    @Autowired
+    @Override
     public Feed getById(int id) {
         return feedDAO.getFeedById(id);
     }

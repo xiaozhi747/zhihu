@@ -38,6 +38,7 @@ public class SensitiveService implements InitializingBean {
         /**
          * key下一个字符，value是对应的节点
          */
+        // subNodes 中 key 是下一个字符, value 是其对应的节点
         private Map<Character, TrieNode> subNodes = new HashMap<>();
 
         /**

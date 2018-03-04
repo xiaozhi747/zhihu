@@ -9,9 +9,9 @@ import java.util.Map;
 public class EventModel {
     private EventType type;     //事件类型
     private int actorId;        //事件的触发者
-    private int entityType;     //entityType 和 entityId 用来查出被触发的事件
+    private int entityType;     //entityType 和 entityId 用来查出被触发的实体
     private int entityId;
-    private int entityOwnerId;  //该事件拥有者的id
+    private int entityOwnerId;  //该实体拥有者的id
 
     private Map<String, String> exts = new HashMap<String, String>();
 
