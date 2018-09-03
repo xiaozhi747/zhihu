@@ -19,7 +19,12 @@
                     </div>
                     <div class="chat-headbox">
                         <span class="msg-num">
-                            $conversation.unread
+                            #if ($conversation.unread > 99)
+                                99+
+                            #else
+                                $conversation.unread
+                            #end
+
                         </span>
                         <a class="list-head">
                             <img alt="头像" src="$conversation.user.headUrl">
