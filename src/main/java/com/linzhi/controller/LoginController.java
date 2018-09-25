@@ -91,7 +91,7 @@ public class LoginController {
                 response.addCookie(cookie);
                 //判断用户是否异常
              /*   eventProducer.fireEvent(new EventModel(EventType.LOGIN)
-                        .setExt("username", username).setExt("email", "zjuyxy@qq.com")
+                        .setExt("username", username).setExt("email", "790565468@qq.com")
                         .setActorId((int)map.get("userId")));   */
 
                 if (StringUtils.isNotBlank(next)) {
