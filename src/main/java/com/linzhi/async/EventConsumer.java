@@ -14,10 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by 林智 on 2018/2/14.
@@ -42,9 +39,15 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
                     if (!config.containsKey(type)) {
                         config.put(type, new ArrayList<EventHandler>());
                     }
+                    // entry.getValue()其实就是每一个 type 所支持的类对象
                     config.get(type).add(entry.getValue());
                 }
             }
+            /*Iterator<Map.Entry<EventType, List<EventHandler>>> it = config.entrySet().iterator();
+            while (it.hasNext()){
+                Map.Entry<EventType, List<EventHandler>> entry = it.next();
+                System.out.println(entry.getKey() + "=" + entry.getValue());
+            }*/
         }
 
         Thread thread = new Thread(new Runnable() {
@@ -53,7 +56,7 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
                 while(true) {
                     String key = RedisKeyUtil.getEventQueueKey();
                     List<String> events = jedisAdapter.brpop(0, key);
-
+                    //由于第一个返回值可能是Key  所以需要把它过滤掉
                     for (String message : events) {
                         if (message.equals(key)) {
                             continue;

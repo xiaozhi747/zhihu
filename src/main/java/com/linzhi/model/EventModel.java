@@ -12,7 +12,7 @@ public class EventModel {
     private int entityType;     //entityType 和 entityId 用来查出被触发的实体
     private int entityId;
     private int entityOwnerId;  //该实体拥有者的id
-
+    //其他的数据
     private Map<String, String> exts = new HashMap<String, String>();
 
     public EventModel() {}
