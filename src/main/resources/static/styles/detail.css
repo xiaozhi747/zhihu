@@ -279,6 +279,7 @@ body {
     line-height:1.7;
     word-wrap:break-word;
     color:#222;
+    //color:#0080FF;
     background-color:#fff
 }
 button {
@@ -7832,6 +7833,7 @@ a>.invisible {
     width:100%;
     height:45px;
     background:#3d444c;
+    //background:#0080FF;
     /*background:-webkit-linear-gradient(top,#086ed5,#055db5);
     background:linear-gradient(to bottom,#086ed5,#055db5);*/
     border-bottom:1px solid #044e97;
@@ -7855,7 +7857,7 @@ a>.invisible {
     float:left;
     width:61px;
     height:100%;
-    background-image:url(../images/res/nk.png);
+    background-image:url(../images/res/wen.png);
     background-repeat:no-repeat;
     background-position:center;
     text-indent:-9999px;

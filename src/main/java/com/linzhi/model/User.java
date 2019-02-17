@@ -59,4 +59,15 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", headUrl='" + headUrl + '\'' +
+                '}';
+    }
 }
