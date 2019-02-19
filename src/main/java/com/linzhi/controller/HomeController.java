@@ -42,9 +42,22 @@ public class HomeController {
         List<ViewObject> vos = new ArrayList<>();
         for (Question question : questionList) {
             ViewObject vo = new ViewObject();
-            vo.setQuestion(question);
-            vo.setFollowCount(followService.getFollowerCount(EntityType.ENTITY_QUESTION, question.getId()));
-            vo.setUser(userService.getUser(question.getUserId()));
+            vo.setQuestionHelp(question);
+            vo.setFollowCountHelp(followService.getFollowerCount(EntityType.ENTITY_QUESTION, question.getId()));
+            vo.setUserHelp(userService.getUser(question.getUserId()));
+            vos.add(vo);
+        }
+        return vos;
+    }
+
+    private List<ViewObject> getQuestionsNonHelp(int userId, int offset, int limit) {
+        List<Question> questionList = questionService.getLatestQuestions(userId, offset, limit);
+        List<ViewObject> vos = new ArrayList<>();
+        for (Question question : questionList) {
+            ViewObject vo = new ViewObject();
+            vo.set("question", question);
+            vo.set("followCount", followService.getFollowerCount(EntityType.ENTITY_QUESTION, question.getId()));
+            vo.set("user", userService.getUser(question.getUserId()));
             vos.add(vo);
         }
         return vos;
@@ -73,7 +86,7 @@ public class HomeController {
 
     @RequestMapping(path = {"/user/{userId}"}, method = {RequestMethod.GET, RequestMethod.POST})
     public String userIndex(Model model, @PathVariable("userId") int userId) {
-        model.addAttribute("vos", getQuestions(userId, 0, 10));
+        model.addAttribute("vos", getQuestionsNonHelp(userId, 0, 10));
 
         User user = userService.getUser(userId);
         ViewObject vo = new ViewObject();

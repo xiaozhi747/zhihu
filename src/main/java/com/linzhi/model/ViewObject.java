@@ -10,37 +10,35 @@ import java.util.Map;
 public class ViewObject implements Serializable {
     private Map<String, Object> objs = new HashMap<String, Object>();
     // 临时方案, 为了配合首页的分页才采用的
-    private User user;
+    private User userHelp;
     // 临时方案, 为了配合首页的分页才采用的
-    private Question question;
+    private Question questionHelp;
     // 临时方案, 为了配合首页的分页才采用的
-    private long followCount;
+    private long followCountHelp;
 
-    public void setFollowCount(long followCount) {
-        this.followCount = followCount;
+    public void setUserHelp(User userHelp) {
+        this.userHelp = userHelp;
     }
 
-    public long getFollowCount() {
-
-        return followCount;
+    public void setQuestionHelp(Question questionHelp) {
+        this.questionHelp = questionHelp;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setFollowCountHelp(long followCountHelp) {
+        this.followCountHelp = followCountHelp;
     }
 
-    public Question getQuestion() {
+    public User getUserHelp() {
 
-        return question;
-
+        return userHelp;
     }
 
-    public User getUser() {
-        return user;
+    public Question getQuestionHelp() {
+        return questionHelp;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public long getFollowCountHelp() {
+        return followCountHelp;
     }
 
     public void set(String key, Object value) {
