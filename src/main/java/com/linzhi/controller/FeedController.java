@@ -64,13 +64,19 @@ public class FeedController {
      */
     @RequestMapping(path = {"/pullfeeds"}, method = {RequestMethod.GET, RequestMethod.POST})
     private String getPullFeeds(Model model) {
+        //System.out.println(hostHolder.getUser() + " ----");
         int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
         List<Integer> followees = new ArrayList<>();
         if (localUserId != 0) {
             // 关注的人
             followees = followService.getFollowees(localUserId, EntityType.ENTITY_USER, Integer.MAX_VALUE);
+            System.out.println(followees);
         }
-        List<Feed> feeds = feedService.getUserFeeds(Integer.MAX_VALUE, followees, 10);
+        List<Feed> feeds = null;
+        // 没有粉丝的用户不该查询 feed流, 否则会将默认用户的 feed流 读取出来
+        if (followees.size() != 0) {
+            feeds = feedService.getUserFeeds(Integer.MAX_VALUE, followees, 10);
+        }
         model.addAttribute("feeds", feeds);
         return "feeds";
     }

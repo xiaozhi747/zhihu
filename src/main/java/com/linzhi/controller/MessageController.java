@@ -60,6 +60,7 @@ public class MessageController {
     @RequestMapping(path = {"/msg/detail"}, method = {RequestMethod.GET})
     public String getConversationDetail(Model model, @RequestParam("conversationId") String conversationId) {
         try {
+            messageService.updateConversationReadCount(conversationId);
             List<Message> messageList = messageService.getConversationDetail(conversationId, 0, 10);
             List<ViewObject> messages = new ArrayList<ViewObject>();
             for (Message message : messageList) {
