@@ -4,4 +4,9 @@
         <scope>application</scope>
         <class>org.apache.velocity.tools.generic.DateTool</class>
     </tool>
+    <tool>
+        <key>String</key>
+        <scope>application</scope>
+        <class>com.linzhi.util.VelocityStringUtil</class>
+    </tool>
 </toolbox>

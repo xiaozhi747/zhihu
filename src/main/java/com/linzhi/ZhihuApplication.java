@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ZhihuApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ZhihuApplication.class, args);
+        SpringApplication.run(ZhihuApplication.class, args);
 	}
 }

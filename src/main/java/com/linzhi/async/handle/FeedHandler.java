@@ -49,13 +49,16 @@ public class FeedHandler implements EventHandler {
         map.put("userName", actor.getName());
 
         if (model.getType() == EventType.COMMENT ||
-                (model.getType() == EventType.FOLLOW  && model.getEntityType() == EntityType.ENTITY_QUESTION)) {
+                (model.getType() == EventType.FOLLOW  && model.getEntityType() == EntityType.ENTITY_QUESTION)
+                || (model.getType() == EventType.ADD_QUESTION)) {
             Question question = questionService.getById(model.getEntityId());
             if (question == null) {
                 return null;
             }
             map.put("questionId", String.valueOf(question.getId()));
             map.put("questionTitle", question.getTitle());
+            map.put("questionContent", question.getContent());
+            System.out.println(question.getContent());
             return JSONObject.toJSONString(map);
         }
         return null;
@@ -93,7 +96,8 @@ public class FeedHandler implements EventHandler {
 
     @Override
     public List<EventType> getSupportEventTypes() {
-        return Arrays.asList(new EventType[]{EventType.COMMENT, EventType.FOLLOW});
+        return Arrays.asList(new EventType[]{EventType.COMMENT, EventType.FOLLOW
+                , EventType.ADD_QUESTION});
     }
 }
 

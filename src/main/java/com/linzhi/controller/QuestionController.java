@@ -1,5 +1,6 @@
 package com.linzhi.controller;
 
+import com.linzhi.async.EventProducer;
 import com.linzhi.model.*;
 import com.linzhi.service.CommentService;
 import com.linzhi.service.FollowService;
@@ -44,6 +45,9 @@ public class QuestionController {
 
     @Autowired
     FollowService followService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(value = "/question/{qid}", method = {RequestMethod.GET})
     public String questionDetail(Model model, @PathVariable("qid") int qid) {
@@ -106,7 +110,11 @@ public class QuestionController {
             } else {
                 question.setUserId(hostHolder.getUser().getId());
             }
-            if (questionService.addQuestion(question) > 0) {
+            int addResult = questionService.addQuestion(question);
+            if (addResult > 0) {
+                logger.info("插入后的问题id" + addResult);
+                eventProducer.fireEvent(new EventModel(EventType.ADD_QUESTION).setActorId(hostHolder.getUser().getId())
+                        .setEntityId(addResult));
                 return WendaUtil.getJSONString(0);
             }
         } catch (Exception e) {
